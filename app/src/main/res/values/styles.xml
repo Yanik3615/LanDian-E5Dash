@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="android:Theme.Material.NoActionBar.Fullscreen">
+        <item name="android:windowBackground">@color/bg_root_start</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorPrimary">@color/accent_cyan</item>
+        <item name="android:colorAccent">@color/accent_amber</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+    </style>
+</resources>

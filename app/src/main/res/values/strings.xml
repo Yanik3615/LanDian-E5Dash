@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">车辆看板</string>
+    <string name="btn_history">7天记录</string>
+    <string name="btn_floating">切换悬浮窗</string>
+    <string name="notif_channel_name">车辆看板后台采集</string>
+    <string name="notif_title">车辆看板正在后台运行</string>
+    <string name="notif_text">点击返回全屏看板，悬浮窗实时更新中</string>
+</resources>

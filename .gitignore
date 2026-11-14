@@ -1,0 +1,22 @@
+# Build outputs & APKs
+build/
+out/
+*.apk
+*.ap_
+*.dex
+*.idsig
+*.class
+
+# Keystores & signing secrets
+*.jks
+*.keystore
+*.pk8
+*.pem
+
+# Gradle / IDE / OS
+.gradle/
+.idea/
+*.iml
+local.properties
+.DS_Store
+Thumbs.db
