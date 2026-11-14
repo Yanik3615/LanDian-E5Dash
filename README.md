@@ -8,6 +8,18 @@
 
 ---
 
+## 界面预览
+
+### 稳健巡航（主界面）
+![稳健巡航](docs/images/preview-cruise.png)
+
+### 多驾驶状态联动
+| 狂飙加速 (`+G`) | 弯道进攻（大转角） | 全力制动 (`-G`) |
+| :---: | :---: | :---: |
+| ![狂飙](docs/images/preview-boost.png) | ![弯道进攻](docs/images/preview-drift.png) | ![全力制动](docs/images/preview-brake.png) |
+
+---
+
 ## 核心特性
 
 1. **实时驾驶与动态视觉**
