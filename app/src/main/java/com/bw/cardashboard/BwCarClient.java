@@ -261,12 +261,17 @@ public class BwCarClient {
                 float ms = Math.max(0f, asFloat(val));
                 float kmh = ms * 3.6f;
                 long now = System.currentTimeMillis();
-                if (state.prevSpeedTimeMs > 0L && state.prevSpeedMs >= 0f) {
+                if (kmh < 1.0f || state.gear == 4) {
+                    state.longitudinalG = 0f;
+                } else if (state.prevSpeedTimeMs > 0L && state.prevSpeedMs >= 0f) {
                     long dtMs = now - state.prevSpeedTimeMs;
                     if (dtMs >= 80L && dtMs <= 3000L) {
                         float instantG = ((ms - state.prevSpeedMs) / (dtMs / 1000f)) / 9.81f;
                         instantG = clamp(instantG, -1.2f, 1.2f);
                         state.longitudinalG = state.longitudinalG * 0.45f + instantG * 0.55f;
+                        if (Math.abs(state.longitudinalG) < 0.015f) {
+                            state.longitudinalG = 0f;
+                        }
                     } else if (dtMs > 3000L) {
                         state.longitudinalG = 0f;
                     }
@@ -311,7 +316,7 @@ public class BwCarClient {
                 break;
             }
             case VEHICLE_CURRENT_TRIP_LAST_TIME:
-                state.tripSeconds = Math.max(0, asInt(val));
+                // 原车 0x214059b3 实际为上一次行程静态时长，行驶中不会递增，改由 tick1HzRunnable 实时累计
                 break;
             case VEHICLE_MAINTENANCE_MILEAGE:
                 state.maintRemainKm = Math.max(0, asInt(val));
@@ -352,8 +357,17 @@ public class BwCarClient {
             synchronized (state) {
                 if (state.demoMode) {
                     advanceDemoState();
-                } else if (demoTick % 10 == 0) {
-                    readSystemSettingsValues();
+                } else {
+                    long now = System.currentTimeMillis();
+                    if (state.speedKmh < 1.0f || state.gear == 4 || (state.prevSpeedTimeMs > 0L && now - state.prevSpeedTimeMs > 1500L)) {
+                        state.longitudinalG = 0f;
+                    }
+                    if (state.connected && (state.speedKmh >= 0.5f || (state.gear != 0 && state.gear != 4))) {
+                        state.tripSeconds++;
+                    }
+                    if (demoTick % 10 == 0) {
+                        readSystemSettingsValues();
+                    }
                 }
                 demoTick++;
                 state.pushHistoryPoint();
